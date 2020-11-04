@@ -330,7 +330,6 @@ int accountInfo(FILE * fp6, FILE * fp7)
  	        for(int i=0; i<9; i++)
 		    printf("Here is your %s: %s\n",listing[i], numbers[i]);
 	}
-
 	while(fgets(string, STRING_LEN, fp7))
 	{
 	    lineOne = strtok(string, "\n");
