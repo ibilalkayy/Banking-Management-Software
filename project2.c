@@ -8,15 +8,16 @@
 #define STRING_LEN 200
 
 /* Global variables */
-char string[STRING_LEN], pinFind[STRING_LEN], ch, choice[STRING_LEN], option, one='1', two='2'; 																																	 /* String to read, pinFind to find pin code, ch to get the file data */																							
-static const char * listing[] = {"Name", "Date of Birth", "ID card number", "Phone number", "Address", "Account", "Fixed", "Amount", "Pin code"};									 /* Details required from the user */
+char string[STRING_LEN], pinFind[STRING_LEN], ch, choice[STRING_LEN], option, one='1', two='2'; 
+/* Details required from the user */
+static const char * listing[] = {"Name", "Date of Birth", "ID card number", "Phone number", "Address", "Account", "Fixed", "Amount", "Pin code"};
 char * lineOne = NULL, *pinFound = NULL, *numbers[9];
 
 int allDigits(char *s)
 {
     for(; *s != 0; s++)
     {
-        if(!isdigit(*s)){																																							 /* Compare alphabets or numbers */
+        if(!isdigit(*s)){						/* Compare alphabets or numbers */
 	    /* Alphabets */
 	    return 0; 
 	}
@@ -29,13 +30,13 @@ typedef struct{
     char datestr[STRING_LEN];
     unsigned dateval;
 } datestrval;
-datestrval max = {.datestr = ""};																																					 /* Show the maximum value */																																		
+datestrval max = {.datestr = ""};					/* Show the maximum value */																																		
 
 int record(char *buf)
 {
     do{
         unsigned day, mon, yr, recorded = 0;
-	char *p = strrchr(buf, ','), tmpstr[STRING_LEN] = "";																														 /* strrchr finds the last comma */
+	char *p = strrchr(buf, ','), tmpstr[STRING_LEN] = "";		/* strrchr finds the last comma */
 
 	if(!p)
 	    continue;
@@ -51,10 +52,10 @@ int record(char *buf)
 	if(sscanf(tmpstr, "%d", &recorded) != 1)
 	    continue;
 
-	if(recorded > max.dateval){																																					 /* if tmpu greater than current max val */
-	    max.dateval = recorded;																																					 /* update struct with new max and string */
+	if(recorded > max.dateval){					/* if tmpu greater than current max val */
+	    max.dateval = recorded;					/* update struct with new max and string */
 	    strcpy(max.datestr, p + 1);
-	    max.datestr[strcspn(max.datestr, "\n")] = 0;																															 /* trim '\n' from string */
+	    max.datestr[strcspn(max.datestr, "\n")] = 0;		/* trim '\n' from string */
 	}
     }while(0);
     return max.dateval;
@@ -96,8 +97,8 @@ int updateOption(char *updateChoice, char *selection)
     getchar();
     fgets(updateChoice, sizeof(updateChoice), stdin);
 
-    size_t len = strlen(updateChoice);																															 /* Find the length of new pin code */
-    if(len > 0 && updateChoice[len - 1] == '\n'){																													 /* Subtract 1 from pin code length that is 5 */
+    size_t len = strlen(updateChoice);					/* Find the length of new pin code */
+    if(len > 0 && updateChoice[len - 1] == '\n'){			/* Subtract 1 from pin code length that is 5 */
         updateChoice[--len] = '\0';		
     }
     return 0;
@@ -110,7 +111,7 @@ int copying(FILE * fFile, FILE * tFile){
 	ch = getc(fFile);
     }
 }
-																		/* __________Choice #1: Make new Account________ */
+							/* __________Choice #1: Make new Account________ */
 int newAccount(FILE * fp1)
 {
     char data[9][STRING_LEN];
@@ -120,7 +121,7 @@ int newAccount(FILE * fp1)
 	    printf("Enter your %s: ", listing[i]);
 	    fgets(data[i], sizeof data, stdin);
 
-	    while(strcmp(data[i], "\n") == 0){																																		  /* Find the newline */
+	    while(strcmp(data[i], "\n") == 0){				/* Find the newline */
 	        fgets(data[i], sizeof data, stdin);	
 	    }
 	    /* Remove newline */
@@ -134,19 +135,19 @@ int newAccount(FILE * fp1)
     }while(option == 'y');
     return 0;
 }
-																/* __________Choice #2: Update the account Information_________ */
+							/* __________Choice #2: Update the account Information_________ */
 int updateAccount(FILE * fp2, FILE * ft1)
 {
     /* Local variables */
     int opt;
     char updatedPhone[STRING_LEN], updatedAddress[STRING_LEN], updatedPin[STRING_LEN];
-    do 																																												  /* Loop stops all details to work at once */
+    do 									/* Loop stops all details to work at once */
     {
         askPin(pinFind);
 	/* Validate account for reading */
 	while(read(fp2, pinFind))
 	{
-	    if(pinFound)																																							 /* If pin code is present in the file */
+	    if(pinFound)						/* If pin code is present in the file */
 	    {
 	        /* Show the data */
 		printf("Here is your Pin code: %s\n", numbers[8]);
@@ -157,15 +158,16 @@ int updateAccount(FILE * fp2, FILE * ft1)
 		printf("2. Your Phone number\n");
 		printf("3. Your Address\n");
 
-		printf("Enter your choice to update: ");																															 /* Select the desired option */
+		printf("Enter your choice to update: ");		/* Select the desired option */
 		scanf("%d", &opt);
 
-		while(pinFound)																																						 /* Continue reading until the pin code found */
+		while(pinFound)						/* Continue reading until the pin code found */
 		{
 		    if(opt == 1)
 		    {
-		        updateOption(updatedPin, "Pin code");																																 /* --len decrements the newline */
-			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);/* Print the data in temporary file */
+		        updateOption(updatedPin, "Pin code");		/* --len decrements the newline */
+			    						/* Print the data in temporary file */
+			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);
 			printf("Your Pin code is successfully updated\n");
 			break;		
 		    }
@@ -212,7 +214,7 @@ int updateAccount(FILE * fp2, FILE * ft1)
     }while(0);
     return 0;
 }
-																		/* __________Choice #3: Transaction of Account_________ */
+							/* __________Choice #3: Transaction of Account_________ */
 
 int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 {
@@ -233,7 +235,7 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 		    getchar();
 		    fgets(choice, sizeof(choice), stdin);
 
-		    saved = strtol(choice, NULL, 10);																																/* Convert string into integer */
+		    saved = strtol(choice, NULL, 10);			/* Convert string into integer */
 		    if(saved <= 0 || saved >= 3){
 		        printf("Sorry, wrong choice entered\n");
 		        exit(0);
@@ -251,15 +253,15 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 		            exit(0);
 		        }			
 	                else
-		        {
-		            addedAmount = x + deposit;																															 /* Update the amount */
+		        {   /* Update the amount */
+		            addedAmount = x + deposit;	
 		            fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%d,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], addedAmount, numbers[8]);
 		            printf("Your present balance is: %d\n", addedAmount);
-								
-		            time_t now = time(NULL);																															 /* Show the system time */
+			    /* Show the system time */	
+		            time_t now = time(NULL);	
 		            struct tm t = *localtime(&now);
 		            printf("%d rupees is deposited on %d-%d-%d\n", deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
-		            fprintf(fp4, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);			 /* Print the data to save record */
+		            fprintf(fp4, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
 		            break;
 		        }			
 	            }
@@ -316,11 +318,11 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
     return 0;
 }
 
-																/* __________Choice #4: Show the account Information_________ */
+							/* __________Choice #4: Show the account Information_________ */
 
 int accountInfo(FILE * fp6, FILE * fp7)
 {
-    int numberOfFields = 9;																																							/* Nine different details of user */
+    int numberOfFields = 9;						/* Nine different details of user */
     char * lineTwo = NULL;
     do
     {
@@ -336,7 +338,7 @@ int accountInfo(FILE * fp6, FILE * fp7)
 	    pinFound = strstr(lineOne, pinFind);
 			
 	    if(pinFound){
-		record(string);																																						/* Get the actual data record */
+		record(string);						/* Get the actual data record */
 	    }		
 	}
 	printf("Here is your last Deposit Date: %s\n", max.datestr);	
@@ -345,13 +347,13 @@ int accountInfo(FILE * fp6, FILE * fp7)
     return 0;
 }
 
-																		/* __________Choice #2: Remove an account_________ */
+							/* __________Choice #5: Remove an account_________ */
 int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, FILE * ft3)
 {
     do
     {
         askPin(pinFind);
-	printf("Confirm it [y/n]: ");																																				/* Confirm to delete */
+	printf("Confirm it [y/n]: ");					/* Confirm to delete */
 	getchar();
 	scanf("%c", &option);
 
@@ -426,7 +428,7 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 
     return 0;
 }
-
+							/* __________Choice #6: Main Function_________ */
 
 int main()
 {
