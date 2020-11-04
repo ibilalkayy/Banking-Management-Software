@@ -147,34 +147,6 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 	{
 		askPin(pinFind);
 		/* Validate account for reading */
-		// printf("Enter your Pin Code: ");
-		// scanf("%s", pinFind);
-
-		// if(strlen(pinFind) != 4){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-		// else if(!allDigits(pinFind)){																																				 /* Accepte only digits */													
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-
-		// while(fgets(string, STRING_LEN, fp2))																																	 /* Read each line into string */
-		// {
-		// 	lineOne = strtok(string, "\n");
-		// 	pinFound = strstr(lineOne, pinFind);																																	 /* Find substring in a string */
-			
-		// 	/* Divide a line with the difference of comma */
-		// 	wordName = strtok(lineOne, ",");
-		// 	wordDob = strtok(NULL, ",");
-		// 	wordId = strtok(NULL, ",");
-		// 	wordPhone = strtok(NULL, ",");
-		// 	wordAddress = strtok(NULL, ",");	
-		// 	wordAccount = strtok(NULL, ",");
-		// 	wordFixed = strtok(NULL, ",");
-		// 	wordAmount = strtok(NULL, ",");
-		// 	wordPin = strtok(NULL, ",");
-
 		while(read(fp2, pinFind))
 		{
 			if(pinFound)																																							 /* If pin code is present in the file */
@@ -195,48 +167,25 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 				{
 					if(opt == 1)
 					{
-						// printf("Enter another Pin code to update: ");
-						// getchar();
-						// fgets(updatedPin, sizeof(updatedPin), stdin);
 
-						// size_t len = strlen(updatedPin);																															  Find the length of new pin code 
-						// if(len > 0 && updatedPin[len - 1] == '\n'){																													 /* Subtract 1 from pin code length that is 5 */
-						// 	updatedPin[--len] = '\0';
-							updateOption(updatedPin, "Pin code");																																 /* --len decrements the newline */
-							fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);/* Print the data in temporary file */
-							printf("Your Pin code is successfully updated\n");
-							break;	
-						// }	
+						updateOption(updatedPin, "Pin code");																																 /* --len decrements the newline */
+						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);/* Print the data in temporary file */
+						printf("Your Pin code is successfully updated\n");
+						break;		
 					}
 					if(opt == 2)
 					{
-						// printf("Enter another Phone number to update: ");
-						// getchar();
-						// fgets(updatedPhone, sizeof(updatedPhone), stdin);
-						// size_t len = strlen(updatedPhone);
-						// if(len > 0 && updatedPhone[len - 1] == '\n')
-						// {
-						// 	updatedPhone[--len] = '\0';
-							updateOption(updatedPhone, "Phone number");
-							fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-							printf("Your Phone number is successfully updated\n");
-							break;
-						// }	
+						updateOption(updatedPhone, "Phone number");
+						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+						printf("Your Phone number is successfully updated\n");
+						break;
 					}
 					if(opt == 3)
 					{
-						// printf("Enter another Address to update: ");
-						// getchar();
-						// fgets(updatedAddress, sizeof(updatedAddress), stdin);
-						// size_t len = strlen(updatedAddress);
-						// if(len > 0 && updatedAddress[len - 1] == '\n')
-						// {
-						// 	updatedAddress[--len] = '\0';
-							updateOption(updatedAddress, "Address");
-							fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
-							printf("Your Address is successfully updated\n");
-							break;	
-						// }
+						updateOption(updatedAddress, "Address");
+						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
+						printf("Your Address is successfully updated\n");
+						break;	
 					}
 				}
 			}
@@ -258,13 +207,6 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 
 		copying(ft1, fp2);
 
-		// ch = fgetc(ft1);
-		// while(ch != EOF)
-		// {
-		// 	 Copy the entire data 
-		// 	putc(ch, fp2);
-		// 	ch = fgetc(ft1);
-		// }
 		fclose(fp2);
 		fclose(ft1);
 
@@ -274,8 +216,6 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 
 		fclose(fp7);
 		fclose(ft2);
-
-
 
 	}while(0);
 	return 0;
@@ -289,31 +229,6 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 	do
 	{
 		askPin(pinFind);
-		// printf("Enter your Pin Code: ");
-		// scanf("%s", pinFind);
-
-		// if(strlen(pinFind) != 4){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-		// else if(!allDigits(pinFind)){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-
-		// while(fgets(string, STRING_LEN, fp3))
-		// {
-		// 	lineOne = strtok(string, "\n");
-		// 	pinFound = strstr(lineOne, pinFind);
-		// 	wordName = strtok(lineOne, ",");
-		// 	wordDob = strtok(NULL, ",");
-		// 	wordId = strtok(NULL, ",");
-		// 	wordPhone = strtok(NULL, ",");
-		// 	wordAddress = strtok(NULL, ",");	
-		// 	wordAccount = strtok(NULL, ",");
-		// 	wordFixed = strtok(NULL, ",");
-		// 	wordAmount = strtok(NULL, ",");
-		// 	wordPin = strtok(NULL, ",");
 
 		while(read(fp3, pinFind)){
 			if(pinFound)
@@ -400,11 +315,7 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 		fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
 
 		copying(ft1, fp3);
-		// ch = fgetc(ft1);
-		// while(ch != EOF){
-		// 	putc(ch, fp3);
-		// 	ch = fgetc(ft1);
-		// }
+		
 		fclose(ft1);
 		fclose(fp3);
 
@@ -426,41 +337,12 @@ int accountInfo(FILE * fp6, FILE * fp7)
 	do
 	{
 		askPin(pinFind);
-		// printf("Enter your Pin Code: ");
-		// scanf("%s", pinFind);
-
-		// if(strlen(pinFind) != 4){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-		// else if(!allDigits(pinFind)){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
 
 		while(read(fp6, pinFind)){
 			if(pinFound)
 				for(int i=0; i<9; i++)
 					printf("Here is your %s: %s\n",listing[i], numbers[i]);
 		}
-	
-
-		// while(fgets(string, STRING_LEN, fp6))
-		// {
-		// 	lineOne = strtok(string, "\n");
-		// 	pinFound = strstr(lineOne, pinFind);
-
-		// 	if(pinFound)
-		// 	{
-		// 		lineTwo = strtok(lineOne, ",");
-		// 		while(lineTwo != NULL)
-		// 		{
-		// 			printf("Here is your %s: %s\n", listing[i], lineTwo);
-		// 			lineTwo = strtok(NULL, ",");
-		// 			i = (i+1) % numberOfFields;																																		/* Read one by one */
-		// 		}
-		// 	}
-		// }
 
 		while(fgets(string, STRING_LEN, fp7))
 		{
@@ -472,12 +354,6 @@ int accountInfo(FILE * fp6, FILE * fp7)
 			}		
 		}
 		printf("Here is your last Deposit Date: %s\n", max.datestr);
-
-		// while(read(fp7, pinFind)){
-		// 	if(pinFound)
-		// 		record(string);
-		// }
-		// printf("Here is your last Deposit Date: %s\n", max.datestr);
 		
 
 	}while(0);
@@ -492,18 +368,7 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 	do
 	{
 		askPin(pinFind);
-		// printf("Enter your Pin Code: ");
-		// scanf("%s", pinFind);
-
-		// if(strlen(pinFind) != 4){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-		// else if(!allDigits(pinFind)){
-		// 	printf("Sorry, wrong data entered\n");
-		// 	break;
-		// }
-
+		
 		printf("Confirm it [y/n]: ");																																				/* Confirm to delete */
 		getchar();
 		scanf("%c", &option);
@@ -525,36 +390,7 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 					fprintf(ft3, "%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
 				}
 			}
-			
-
-			// while(fgets(string, STRING_LEN, fp6))
-			// {
-			// 	lineOne = strtok(string, "\n");
-			// 	pinFound = strstr(lineOne, pinFind);
-
-			// 	if(!pinFound){
-			// 		fprintf(ft1, "%s\n", lineOne);
-			// 	}
-			// }	
-			// while(fgets(string, STRING_LEN, fp7))
-			// {
-			// 	lineOne = strtok(string, "\n");
-			// 	pinFound = strstr(lineOne, pinFind);
-
-			// 	if(!pinFound){
-			// 		fprintf(ft2, "%s\n", lineOne);
-			// 	}
-			// }			
-
-			// while(fgets(string, STRING_LEN, fp8))
-			// {
-			// 	lineOne = strtok(string, "\n");
-			// 	pinFound = strstr(lineOne, pinFind);
-
-			// 	if(!pinFound){
-			// 		fprintf(ft3, "%s\n", lineOne);
-			// 	}
-			// }			
+		
 			printf("Your account is deleted\n");
 			break;
 		}
@@ -593,22 +429,6 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 	copying(ft1, fp6);
 	copying(ft2, fp7);
 	copying(ft3, fp8);
-
-	// ch = getc(ft1);
-	// while(ch != EOF){
-	// 	putc(ch, fp6);
-	// 	ch = getc(ft1);
-	// }
-	// ch = getc(ft2);
-	// while(ch != EOF){
-	// 	putc(ch, fp7);
-	// 	ch = getc(ft2);
-	// }
-	// ch = getc(ft3);
-	// while(ch != EOF){
-	// 	putc(ch, fp8);
-	// 	ch = getc(ft3);
-	// }
 
 	fclose(fp6);
 	fclose(fp7);
@@ -690,35 +510,6 @@ int main()
 				break;
 		}
 
-		// if(choice[0] == one){
-		// 	newAccount(fp1);
-		// 	break;
-		// }
-		// else if(choice[0] == two){
-		// 	updateAccount(fp2, ft1);
-		// 	break;
-		// }
-		// else if(choice[0] == three){
-		// 	userTransaction(fp3, fp4, fp5, ft1);
-		// 	break;
-		// }
-		// else if(choice[0] == four){
-		// 	accountInfo(fp6, fp7);
-		// 	break;
-		// }
-		// else if(choice[0] == five){
-		// 	accountRemoval(fp6, fp7, fp8, ft1, ft2, ft3);
-		// 	break;
-		// }
-		// else if(choice[0] == six){
-		// 	printf("Okay, Good Bye!\n");
-		// 	break;
-		// }
-		// else{
-		// 	printf("Sorry, wrong option\n");
-		// 	break;
-		// }
-	// }
 	return 0;
 }
 
