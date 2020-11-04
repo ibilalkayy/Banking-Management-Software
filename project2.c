@@ -99,7 +99,7 @@ int updateOption(char *updateChoice, char *selection)
 
     size_t len = strlen(updateChoice);					/* Find the length of new pin code */
     if(len > 0 && updateChoice[len - 1] == '\n'){			/* Subtract 1 from pin code length that is 5 */
-        updateChoice[--len] = '\0';		
+        updateChoice[--len] = '\0';					/* --len decrements the newline */
     }
     return 0;
 }
@@ -164,9 +164,8 @@ int updateAccount(FILE * fp2, FILE * ft1)
 		while(pinFound)						/* Continue reading until the pin code found */
 		{
 		    if(opt == 1)
-		    {
-		        updateOption(updatedPin, "Pin code");		/* --len decrements the newline */
-			    						/* Print the data in temporary file */
+		    {							
+		        updateOption(updatedPin, "Pin code");		/* Print the data in temporary file */		    						
 			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);
 			printf("Your Pin code is successfully updated\n");
 			break;		
