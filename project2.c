@@ -289,7 +289,7 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 	        }
             }
         }
-        /* All the remained accounts */
+        /* All the remaining accounts */
         if(!pinFound){
             fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
         }
@@ -309,7 +309,7 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
     fclose(ft1);
     fclose(fp3);
 
-    /* Delete the data from the temporar file */
+    /* Delete the data from the temporary file */
     ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
     fclose(ft1);
 
@@ -321,8 +321,6 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 
 int accountInfo(FILE * fp6, FILE * fp7)
 {
-    int numberOfFields = 9;						/* Nine different details of user */
-    char * lineTwo = NULL;
     do
     {
 	askPin(pinFind);
@@ -334,13 +332,12 @@ int accountInfo(FILE * fp6, FILE * fp7)
 	while(fgets(string, STRING_LEN, fp7))
 	{
 	    lineOne = strtok(string, "\n");
-	    pinFound = strstr(lineOne, pinFind);
-			
+	    pinFound = strstr(lineOne, pinFind);		
 	    if(pinFound){
 		record(string);						/* Get the actual data record */
 	    }		
 	}
-	printf("Here is your last Deposit Date: %s\n", max.datestr);	
+	printf("Here is your last Deposit Date: %s\n", max.datestr);	/* Print the last Deposit Date */
 
     }while(0);
     return 0;
