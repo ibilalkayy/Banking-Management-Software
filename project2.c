@@ -7,146 +7,137 @@
 #include <time.h>
 #define STRING_LEN 200
 
-// int newAccount(FILE * fp1);
-// int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2);
-// int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1);
-// int accountInfo(FILE * fp6, FILE * fp7);
-// int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, FILE * ft3);
-
 /* Global variables */
-char string[STRING_LEN], pinFind[STRING_LEN], ch; 																																	 /* String to read, pinFind to find pin code, ch to get the file data */
-char choice[STRING_LEN], option, one='1', two='2';																							
+char string[STRING_LEN], pinFind[STRING_LEN], ch, choice[STRING_LEN], option, one='1', two='2'; 																																	 /* String to read, pinFind to find pin code, ch to get the file data */																							
 static const char * listing[] = {"Name", "Date of Birth", "ID card number", "Phone number", "Address", "Account", "Fixed", "Amount", "Pin code"};									 /* Details required from the user */
 char * lineOne = NULL, *pinFound = NULL, *numbers[9];
 
 int allDigits(char *s)
 {
-	for(; *s != 0; s++)
-	{
-		if(!isdigit(*s)){																																							 /* Compare alphabets or numbers */
-			/* Alphabets */
-			return 0; 
-		}
+    for(; *s != 0; s++)
+    {
+        if(!isdigit(*s)){																																							 /* Compare alphabets or numbers */
+	    /* Alphabets */
+	    return 0; 
 	}
-	/* Numbers */
-	return 1;
+    }
+    /* Numbers */
+    return 1;
 }
 
 typedef struct{
-	char datestr[STRING_LEN];
-	unsigned dateval;
+    char datestr[STRING_LEN];
+    unsigned dateval;
 } datestrval;
 
 datestrval max = {.datestr = ""};																																					 /* Show the maximum value */																																		
 
 int record(char *buf)
 {
-	do{
-		unsigned day, mon, yr, recorded = 0;
-		char *p = strrchr(buf, ','), tmpstr[STRING_LEN] = "";																														 /* strrchr finds the last comma */
+    do{
+        unsigned day, mon, yr, recorded = 0;
+	char *p = strrchr(buf, ','), tmpstr[STRING_LEN] = "";																														 /* strrchr finds the last comma */
 
-		if(!p)
-			continue;
+	if(!p)
+	    continue;
 
-		/* Starting 1 char after ',' split into day mo yr */
-		if(sscanf(p + 1, "%d-%d-%4d", &day, &mon, &yr) != 3)
-			continue;
+	/* Starting 1 char after ',' split into day mo yr */
+	if(sscanf(p + 1, "%d-%d-%4d", &day, &mon, &yr) != 3)
+	    continue;
 
-		/* Put it together in tmpstr */
-		sprintf(tmpstr, "%4d%2d%2d", yr, mon, day);	
+	/* Put it together in tmpstr */
+	sprintf(tmpstr, "%4d%2d%2d", yr, mon, day);	
 
-		/* Convert tmpstr to unsigned in recorded */
-		if(sscanf(tmpstr, "%d", &recorded) != 1)
-			continue;
+	/* Convert tmpstr to unsigned in recorded */
+	if(sscanf(tmpstr, "%d", &recorded) != 1)
+	    continue;
 
-		if(recorded > max.dateval){																																					 /* if tmpu greater than current max val */
-			max.dateval = recorded;																																					 /* update struct with new max and string */
-			strcpy(max.datestr, p + 1);
-			max.datestr[strcspn(max.datestr, "\n")] = 0;																															 /* trim '\n' from string */
-		}
-	}while(0);
+	if(recorded > max.dateval){																																					 /* if tmpu greater than current max val */
+	    max.dateval = recorded;																																					 /* update struct with new max and string */
+	    strcpy(max.datestr, p + 1);
+	    max.datestr[strcspn(max.datestr, "\n")] = 0;																															 /* trim '\n' from string */
+	}
+    }while(0);
 
-	return max.dateval;
+    return max.dateval;
 }
 
 int read(FILE * fname, char * findPin)
 {
-	if(fgets(string, STRING_LEN, fname))
-	{
-		lineOne = strtok(string, "\n");
-		pinFound = strstr(lineOne, pinFind);
-		numbers[0] = strtok(lineOne, ",");
-		for(int i = 1; i < 9; i++)
-			numbers[i] = strtok(NULL, ",");
-		return true;
-	}
-	else{
-		return false;
-	}
+    if(fgets(string, STRING_LEN, fname))
+    {
+        lineOne = strtok(string, "\n");
+	pinFound = strstr(lineOne, pinFind);
+	numbers[0] = strtok(lineOne, ",");
+	for(int i = 1; i < 9; i++)
+	    numbers[i] = strtok(NULL, ",");
+	    return true;
+    }
+    else{
+        return false;
+    }
 }
 
 int askPin(char *pin)
 {
-	printf("Enter your Pin Code: ");
-	scanf("%s", pin);
+    printf("Enter your Pin Code: ");
+    scanf("%s", pin);
 
-	if(strlen(pin) != 4){
-		printf("Sorry, wrong data entered\n");
-	}
-	else if(!allDigits(pin)){
-		printf("Sorry, wrong data entered\n");
-	}
-	return 0;
+    if(strlen(pin) != 4){
+        printf("Sorry, wrong data entered\n");
+    }
+    else if(!allDigits(pin)){
+        printf("Sorry, wrong data entered\n");
+    }
+    return 0;
 }
 
 int updateOption(char *updateChoice, char *selection)
 {
-	printf("Enter another %s to update: ", selection);
-	getchar();
-	fgets(updateChoice, sizeof(updateChoice), stdin);
+    printf("Enter another %s to update: ", selection);
+    getchar();
+    fgets(updateChoice, sizeof(updateChoice), stdin);
 
-	size_t len = strlen(updateChoice);																															 /* Find the length of new pin code */
-	if(len > 0 && updateChoice[len - 1] == '\n'){																													 /* Subtract 1 from pin code length that is 5 */
-		updateChoice[--len] = '\0';		
-	}
-
-	return 0;
+    size_t len = strlen(updateChoice);																															 /* Find the length of new pin code */
+    if(len > 0 && updateChoice[len - 1] == '\n'){																													 /* Subtract 1 from pin code length that is 5 */
+        updateChoice[--len] = '\0';		
+    }
+    return 0;
 }
 
 int copying(FILE * fFile, FILE * tFile){
+    ch = getc(fFile);
+    while(ch != EOF){
+        putc(ch, tFile);
 	ch = getc(fFile);
-	while(ch != EOF){
-		putc(ch, tFile);
-		ch = getc(fFile);
-	}
+    }
 }
 																		/* __________Choice #1: Make new Account________ */
-
 int newAccount(FILE * fp1)
 {
-	char data[9][STRING_LEN];
-	do{
-		for(int i=0; i<9; i++){
-			printf("Enter your %s: ", listing[i]);
-			fgets(data[i], sizeof data, stdin);
+    char data[9][STRING_LEN];
+    do{
+        for(int i=0; i<9; i++)
+	{
+	    printf("Enter your %s: ", listing[i]);
+	    fgets(data[i], sizeof data, stdin);
 
-			while(strcmp(data[i], "\n") == 0){																																		  /* Find the newline */
-				fgets(data[i], sizeof data, stdin);	
-			}
-			/* Remove newline */
-			data[i][strlen(data[i]) - 1] = '\0';
-		}
-		fprintf(fp1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
+	    while(strcmp(data[i], "\n") == 0){																																		  /* Find the newline */
+	        fgets(data[i], sizeof data, stdin);	
+	    }
+	    /* Remove newline */
+	    data[i][strlen(data[i]) - 1] = '\0';
+	}
+	
+	fprintf(fp1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
 	printf("Do you want to create again [y/n]: ");
 	scanf("%c", &option);
 
-	}while(option == 'y');
+    }while(option == 'y');
 
-	return 0;
+    return 0;
 }
-
 																/* __________Choice #2: Update the account Information_________ */
-
 int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 {
 	/* Local variables */
