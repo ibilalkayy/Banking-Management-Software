@@ -135,7 +135,7 @@ int newAccount(FILE * fp1)
     return 0;
 }
 																/* __________Choice #2: Update the account Information_________ */
-int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
+int updateAccount(FILE * fp2, FILE * ft1)
 {
     /* Local variables */
     int opt;
