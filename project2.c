@@ -17,7 +17,7 @@ int allDigits(char *s)
 {
     for(; *s != 0; s++)
     {
-        if(!isdigit(*s)){						/* Compare alphabets or numbers */
+        if(!isdigit(*s)){						/* Check alphabets or numbers */
 	    /* Alphabets */
 	    return 0; 
 	}
