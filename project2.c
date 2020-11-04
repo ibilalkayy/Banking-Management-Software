@@ -29,7 +29,6 @@ typedef struct{
     char datestr[STRING_LEN];
     unsigned dateval;
 } datestrval;
-
 datestrval max = {.datestr = ""};																																					 /* Show the maximum value */																																		
 
 int record(char *buf)
@@ -58,7 +57,6 @@ int record(char *buf)
 	    max.datestr[strcspn(max.datestr, "\n")] = 0;																															 /* trim '\n' from string */
 	}
     }while(0);
-
     return max.dateval;
 }
 
@@ -134,7 +132,6 @@ int newAccount(FILE * fp1)
 	scanf("%c", &option);
 
     }while(option == 'y');
-
     return 0;
 }
 																/* __________Choice #2: Update the account Information_________ */
@@ -205,7 +202,6 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 	fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
 
 	copying(ft1, fp2);
-
 	fclose(fp2);
 	fclose(ft1);
 
@@ -397,7 +393,6 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
     fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
     fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "w");
     fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "w");
-
     fclose(fp6);
     fclose(fp7);
     fclose(fp8);
@@ -415,7 +410,6 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
     copying(ft1, fp6);
     copying(ft2, fp7);
     copying(ft3, fp8);
-
     fclose(fp6);
     fclose(fp7);
     fclose(fp8);
@@ -427,7 +421,6 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
     ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
     ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "w");
     ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "w");	
-
     fclose(ft1);
     fclose(ft2);
     fclose(ft3);
