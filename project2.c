@@ -396,7 +396,7 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 		}
 		else if(option == 'n'){
 			printf("Your account is not deleted\n");
-			break;
+			exit(0);
 		}
 
 	}while(0);
