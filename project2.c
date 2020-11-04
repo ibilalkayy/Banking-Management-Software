@@ -52,7 +52,7 @@ int record(char *buf)
 	if(sscanf(tmpstr, "%d", &recorded) != 1)
 	    continue;
 
-	if(recorded > max.dateval){					/* if tmpu greater than current max val */
+	if(recorded > max.dateval){					/* if recorded greater than current max val */
 	    max.dateval = recorded;					/* update struct with new max and string */
 	    strcpy(max.datestr, p + 1);
 	    max.datestr[strcspn(max.datestr, "\n")] = 0;		/* trim '\n' from string */
