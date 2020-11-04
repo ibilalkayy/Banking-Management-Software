@@ -140,85 +140,84 @@ int newAccount(FILE * fp1)
 																/* __________Choice #2: Update the account Information_________ */
 int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 {
-	/* Local variables */
-	int opt;
-	char updatedPhone[STRING_LEN], updatedAddress[STRING_LEN], updatedPin[STRING_LEN];
-	do 																																												  /* Loop stops all details to work at once */
+    /* Local variables */
+    int opt;
+    char updatedPhone[STRING_LEN], updatedAddress[STRING_LEN], updatedPin[STRING_LEN];
+    do 																																												  /* Loop stops all details to work at once */
+    {
+        askPin(pinFind);
+	/* Validate account for reading */
+	while(read(fp2, pinFind))
 	{
-		askPin(pinFind);
-		/* Validate account for reading */
-		while(read(fp2, pinFind))
+	    if(pinFound)																																							 /* If pin code is present in the file */
+	    {
+	        /* Show the data */
+		printf("Here is your Pin code: %s\n", numbers[8]);
+		printf("Here is your Phone number: %s\n", numbers[3]);
+		printf("Here is your Address: %s\n", numbers[4]);
+
+		printf("1. Your Pin Code\n");
+		printf("2. Your Phone number\n");
+		printf("3. Your Address\n");
+
+		printf("Enter your choice to update: ");																															 /* Select the desired option */
+		scanf("%d", &opt);
+
+		while(pinFound)																																						 /* Continue reading until the pin code found */
 		{
-			if(pinFound)																																							 /* If pin code is present in the file */
-			{
-				/* Show the data */
-				printf("Here is your Pin code: %s\n", numbers[8]);
-				printf("Here is your Phone number: %s\n", numbers[3]);
-				printf("Here is your Address: %s\n", numbers[4]);
-
-				printf("1. Your Pin Code\n");
-				printf("2. Your Phone number\n");
-				printf("3. Your Address\n");
-
-				printf("Enter your choice to update: ");																															 /* Select the desired option */
-				scanf("%d", &opt);
-
-				while(pinFound)																																						 /* Continue reading until the pin code found */
-				{
-					if(opt == 1)
-					{
-
-						updateOption(updatedPin, "Pin code");																																 /* --len decrements the newline */
-						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);/* Print the data in temporary file */
-						printf("Your Pin code is successfully updated\n");
-						break;		
-					}
-					if(opt == 2)
-					{
-						updateOption(updatedPhone, "Phone number");
-						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-						printf("Your Phone number is successfully updated\n");
-						break;
-					}
-					if(opt == 3)
-					{
-						updateOption(updatedAddress, "Address");
-						fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
-						printf("Your Address is successfully updated\n");
-						break;	
-					}
-				}
-			}
-			/* All the Remaining accounts */
-			if(!pinFound){
-				fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-			}
+		    if(opt == 1)
+		    {
+		        updateOption(updatedPin, "Pin code");																																 /* --len decrements the newline */
+			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);/* Print the data in temporary file */
+			printf("Your Pin code is successfully updated\n");
+			break;		
+		    }
+		    if(opt == 2)
+		    {
+			updateOption(updatedPhone, "Phone number");
+			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+			printf("Your Phone number is successfully updated\n");
+			break;
+		    }
+		    if(opt == 3)
+		    {
+			updateOption(updatedAddress, "Address");
+			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
+			printf("Your Address is successfully updated\n");
+			break;	
+		    }
 		}
-		fclose(fp2);
-		fclose(ft1);
+	    }
+	    /* All the Remaining accounts */
+	    if(!pinFound){
+		fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+	    }
+	}
+	fclose(fp2);
+	fclose(ft1);
 
-		/* Delete data from permanent file */
-		fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
-		fclose(fp2);	
+	/* Delete data from permanent file */
+	fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
+	fclose(fp2);	
 
-		/* Copy data from the temporary file to the permanent file */
-		ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-		fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+	/* Copy data from the temporary file to the permanent file */
+	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
+	fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
 
-		copying(ft1, fp2);
+	copying(ft1, fp2);
 
-		fclose(fp2);
-		fclose(ft1);
+	fclose(fp2);
+	fclose(ft1);
 
-		/* Delete data from the temporary file */
-		ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
-		fclose(ft1);
+	/* Delete data from the temporary file */
+	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
+	fclose(ft1);
 
-		fclose(fp7);
-		fclose(ft2);
+	fclose(fp7);
+	fclose(ft2);
 
-	}while(0);
-	return 0;
+    }while(0);
+    return 0;
 }
 
 																		/* __________Choice #3: Transaction of Account_________ */
