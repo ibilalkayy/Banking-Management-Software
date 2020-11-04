@@ -213,303 +213,284 @@ int updateAccount(FILE * fp2, FILE * fp7, FILE * ft1, FILE * ft2)
 	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
 	fclose(ft1);
 
-	fclose(fp7);
-	fclose(ft2);
-
     }while(0);
     return 0;
 }
-
 																		/* __________Choice #3: Transaction of Account_________ */
 
 int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
 {
-	int deposit, withdraw, addedAmount, subtractedAmount, x, saved;
-	do
-	{
-		askPin(pinFind);
+    int deposit, withdraw, addedAmount, subtractedAmount, x, saved;
+    do
+    {
+        askPin(pinFind);
+        while(read(fp3, pinFind)){
+            if(pinFound)
+	    {
+	        while(choice[0] != two)
+	        {
+		    printf("Your total balance is: %s\n", numbers[7]);
+		    printf("%c. Deposit the amount\n", one);
+		    printf("%c. Withdraw the amount\n", two);
 
-		while(read(fp3, pinFind)){
-			if(pinFound)
-			{
-				while(choice[0] != two)
-				{
-					printf("Your total balance is: %s\n", numbers[7]);
-					printf("%c. Deposit the amount\n", one);
-					printf("%c. Withdraw the amount\n", two);
+		    printf("Enter your choice: ");
+		    getchar();
+		    fgets(choice, sizeof(choice), stdin);
 
-					printf("Enter your choice: ");
-					getchar();
-					fgets(choice, sizeof(choice), stdin);
+		    saved = strtol(choice, NULL, 10);																																/* Convert string into integer */
+		    if(saved <= 0 || saved >= 3){
+		        printf("Sorry, wrong choice entered\n");
+		        exit(0);
+	            }
+	            else
+	            {
+	                x = strtol(numbers[7], NULL, 10);
+	                if(choice[0] == one)
+	                {
+	                    printf("Enter the amount to deposit: ");
+		            scanf("%d", &deposit);
 
-					saved = strtol(choice, NULL, 10);																																/* Convert string into integer */
-					if(saved <= 0 || saved >= 3){
-						printf("Sorry, wrong choice entered\n");
-						exit(0);
-					}
-					else
-					{
-						x = strtol(numbers[7], NULL, 10);
-						if(choice[0] == one)
-						{
-							printf("Enter the amount to deposit: ");
-							scanf("%d", &deposit);
-
-							if(deposit <= 0){
-								printf("Sorry, wrong amount entered\n");
-								exit(0);
-							}			
-							else
-							{
-								addedAmount = x + deposit;																															 /* Update the amount */
-								fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%d,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], addedAmount, numbers[8]);
-								printf("Your present balance is: %d\n", addedAmount);
+		            if(deposit <= 0){
+		            printf("Sorry, wrong amount entered\n");
+		            exit(0);
+		        }			
+	                else
+		        {
+		            addedAmount = x + deposit;																															 /* Update the amount */
+		            fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%d,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], addedAmount, numbers[8]);
+		            printf("Your present balance is: %d\n", addedAmount);
 								
-								time_t now = time(NULL);																															 /* Show the system time */
-								struct tm t = *localtime(&now);
-								printf("%d rupees is deposited on %d-%d-%d\n", deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
-								fprintf(fp4, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);			 /* Print the data to save record */
-								break;
-							}			
-						}
-						if(choice[0] == two)
-						{
-							printf("Enter the amount to withdraw: ");
-							scanf("%d", &withdraw);
+		            time_t now = time(NULL);																															 /* Show the system time */
+		            struct tm t = *localtime(&now);
+		            printf("%d rupees is deposited on %d-%d-%d\n", deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
+		            fprintf(fp4, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], deposit, t.tm_mday, t.tm_mon+1, t.tm_year+1900);			 /* Print the data to save record */
+		            break;
+		        }			
+	            }
+	            if(choice[0] == two)
+	            {
+		        printf("Enter the amount to withdraw: ");
+		        scanf("%d", &withdraw);
 
-							if(withdraw <= 0){
-								printf("Sorry, wrong amount entered\n");
-								exit(0);
-							}			
-							else
-							{
-								subtractedAmount = x - withdraw;
-								fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%d,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], subtractedAmount, numbers[8]);
-								printf("Your present balance is: %d\n", subtractedAmount);
+		        if(withdraw <= 0){
+		            printf("Sorry, wrong amount entered\n");
+		            exit(0);
+		        }			
+		        else
+		        {
+		            subtractedAmount = x - withdraw;
+		            fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%d,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], subtractedAmount, numbers[8]);
+		            printf("Your present balance is: %d\n", subtractedAmount);
 
-								time_t now = time(NULL);
-								struct tm t = *localtime(&now);
-								printf("%d rupees is withdrawn on %d-%d-%d\n", withdraw, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
-								fprintf(fp5, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], withdraw, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
-								break;
-							}			
-						}
-					}
-				}
-			}
-			/* All the remained accounts */
-			if(!pinFound){
-				fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-			}
-		}	
-		fclose(ft1);
-		fclose(fp3);
+		            time_t now = time(NULL);
+		            struct tm t = *localtime(&now);
+		            printf("%d rupees is withdrawn on %d-%d-%d\n", withdraw, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
+		            fprintf(fp5, "%s,%s,%s,%s,%d,%d-%d-%d\n", numbers[0], numbers[2], numbers[3], numbers[8], withdraw, t.tm_mday, t.tm_mon+1, t.tm_year+1900);
+		            break;
+		        }			
+	            }
+	        }
+            }
+        }
+        /* All the remained accounts */
+        if(!pinFound){
+            fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+        }
+    }	
+    fclose(ft1);
+    fclose(fp3);
 
-		/* Delete the data from original file */
-		fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
-		fclose(fp3);
+    /* Delete the data from original file */
+    fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
+    fclose(fp3);
 
-		/* Copy the data from temporary file to original file */
-		ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-		fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+    /* Copy the data from temporary file to original file */
+    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
+    fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
 
-		copying(ft1, fp3);
-		
-		fclose(ft1);
-		fclose(fp3);
+    copying(ft1, fp3);	
+    fclose(ft1);
+    fclose(fp3);
 
-		/* Delete the data from the temporar file */
-		ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
-		fclose(ft1);
+    /* Delete the data from the temporar file */
+    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
+    fclose(ft1);
 
-	}while(0);
-
-	return 0;
+    }while(0);
+    return 0;
 }
 
 																/* __________Choice #4: Show the account Information_________ */
 
 int accountInfo(FILE * fp6, FILE * fp7)
 {
-	int numberOfFields = 9;																																							/* Nine different details of user */
-	char * lineTwo = NULL;
-	do
+    int numberOfFields = 9;																																							/* Nine different details of user */
+    char * lineTwo = NULL;
+    do
+    {
+	askPin(pinFind);
+	while(read(fp6, pinFind)){
+	    if(pinFound)
+ 	        for(int i=0; i<9; i++)
+		    printf("Here is your %s: %s\n",listing[i], numbers[i]);
+	}
+
+	while(fgets(string, STRING_LEN, fp7))
 	{
-		askPin(pinFind);
-
-		while(read(fp6, pinFind)){
-			if(pinFound)
-				for(int i=0; i<9; i++)
-					printf("Here is your %s: %s\n",listing[i], numbers[i]);
-		}
-
-		while(fgets(string, STRING_LEN, fp7))
-		{
-			lineOne = strtok(string, "\n");
-			pinFound = strstr(lineOne, pinFind);
+	    lineOne = strtok(string, "\n");
+	    pinFound = strstr(lineOne, pinFind);
 			
-			if(pinFound){
-				record(string);																																						/* Get the actual data record */
-			}		
-		}
-		printf("Here is your last Deposit Date: %s\n", max.datestr);
-		
+	    if(pinFound){
+		record(string);																																						/* Get the actual data record */
+	    }		
+	}
+	printf("Here is your last Deposit Date: %s\n", max.datestr);	
 
-	}while(0);
-
-	return 0;
+    }while(0);
+    return 0;
 }
 
 																		/* __________Choice #2: Remove an account_________ */
-
 int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, FILE * ft3)
 {
-	do
-	{
-		askPin(pinFind);
-		
-		printf("Confirm it [y/n]: ");																																				/* Confirm to delete */
-		getchar();
-		scanf("%c", &option);
+    do
+    {
+        askPin(pinFind);
+	printf("Confirm it [y/n]: ");																																				/* Confirm to delete */
+	getchar();
+	scanf("%c", &option);
 
-		if(option == 'y')
-		{
-			while(read(fp6, pinFind)){
-				if(!pinFound){
-					fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-				}
-			}
-			while(read(fp7, pinFind)){
-				if(!pinFound){
-					fprintf(ft2, "%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
-				}
-			}
-			while(read(fp8, pinFind)){
-				if(!pinFound){
-					fprintf(ft3, "%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
-				}
-			}
-		
-			printf("Your account is deleted\n");
-			break;
+	if(option == 'y')
+        {
+	    while(read(fp6, pinFind)){
+	        if(!pinFound){
+		    fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+	        }
+	    }
+	    while(read(fp7, pinFind)){
+		if(!pinFound){
+		    fprintf(ft2, "%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
 		}
-		else if(option == 'n'){
-			printf("Your account is not deleted\n");
-			exit(0);
+	    }
+	    while(read(fp8, pinFind)){
+		if(!pinFound){
+		    fprintf(ft3, "%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
 		}
+	    }
+	    printf("Your account is deleted\n");
+	    break;
+        }
+	else if(option == 'n'){
+	    printf("Your account is not deleted\n");
+	    exit(0);
+	}
 
-	}while(0);
-	fclose(fp6);
-	fclose(fp7);
-	fclose(fp8);
-	fclose(ft1);
-	fclose(ft2);
-	fclose(ft3);
+    }while(0);
+    fclose(fp6);
+    fclose(fp7);
+    fclose(fp8);
+    fclose(ft1);
+    fclose(ft2);
+    fclose(ft3);
 
-	/* Delete the data from original file */
-	fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
-	fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "w");
-	fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "w");
+    /* Delete the data from original file */
+    fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
+    fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "w");
+    fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "w");
 
-	fclose(fp6);
-	fclose(fp7);
-	fclose(fp8);
+    fclose(fp6);
+    fclose(fp7);
+    fclose(fp8);
 
-	/* Copy the data from temporary file to original file */
-	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-	fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+    /* Copy the data from temporary file to original file */
+    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
+    fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
 
-	ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "r");
-	fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
+    ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "r");
+    fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
 
-	ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "r");
-	fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
+    ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "r");
+    fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
 
-	copying(ft1, fp6);
-	copying(ft2, fp7);
-	copying(ft3, fp8);
+    copying(ft1, fp6);
+    copying(ft2, fp7);
+    copying(ft3, fp8);
 
-	fclose(fp6);
-	fclose(fp7);
-	fclose(fp8);
-	fclose(ft1);
-	fclose(ft2);
-	fclose(ft3);
+    fclose(fp6);
+    fclose(fp7);
+    fclose(fp8);
+    fclose(ft1);
+    fclose(ft2);
+    fclose(ft3);
 
-	/* Delete the data from temporary file */
-	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
-	ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "w");
-	ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "w");	
+    /* Delete the data from temporary file */
+    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
+    ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "w");
+    ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "w");	
 
-	fclose(ft1);
-	fclose(ft2);
-	fclose(ft3);
+    fclose(ft1);
+    fclose(ft2);
+    fclose(ft3);
 
-	return 0;
+    return 0;
 }
 
 
 int main()
 {
-	/* Temporary files */
-	FILE * ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "a");
-	FILE * ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "a");
-	FILE * ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "a");
+    /* Temporary files */
+    FILE * ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "a");
+    FILE * ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "a");
+    FILE * ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "a");
 	
-	/* Permanent files */
-	FILE * fp1 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
-	FILE * fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-	FILE * fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-	FILE * fp4 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
-	FILE * fp5 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
-	FILE * fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-	FILE * fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "r");
-	FILE * fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "r");
+    /* Permanent files */
+    FILE * fp1 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+    FILE * fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
+    FILE * fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
+    FILE * fp4 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
+    FILE * fp5 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
+    FILE * fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
+    FILE * fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "r");
+    FILE * fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "r");
 
-	// while(choice[0] != six)
-	// {
-		/* Show the Main menu */
-		printf("BANKING MANAGEMENT SYSTEM\n");
-		printf("\nWELCOME TO THE MAIN MENU\n");
+    /* Show the Main menu */
+    printf("BANKING MANAGEMENT SYSTEM\n");
+    printf("\nWELCOME TO THE MAIN MENU\n");
 
-		printf("1. Create new account\n");
-		printf("2. Update existing account\n");
-		printf("3. For Transactions\n");
-		printf("4. Show the details of account\n");
-		printf("5. Removal of account\n");
-		printf("6. Exit\n");
+    printf("1. Create new account\n");
+    printf("2. Update existing account\n");
+    printf("3. For Transactions\n");
+    printf("4. Show the details of account\n");
+    printf("5. Removal of account\n");
+    printf("6. Exit\n");
 
-		/* Give choice to select */
-		printf("Enter your choice: ");
-		fgets(choice, sizeof(choice), stdin);
-		// scanf("%c", &choice);
-
-		switch(choice[0])
-		{
-			case '1':
-				newAccount(fp1);
-				break;
-			case '2':
-				updateAccount(fp2, fp7, ft1, ft2);
-				break;
-			case '3':
-				userTransaction(fp3, fp4, fp5, ft1);
-				break;
-			case '4':
-				accountInfo(fp6, fp7);
-				break;
-			case '5':
-				accountRemoval(fp6, fp7, fp8, ft1, ft2, ft3);
-				break;
-			case '6':
-				printf("Okay, Good Bye!\n");
-				break;
-			default:
-				printf("Sorry, wrong option\n");
-				break;
-		}
-
-	return 0;
+    /* Give choice to select */
+    printf("Enter your choice: ");
+    fgets(choice, sizeof(choice), stdin);
+   
+    switch(choice[0])
+    {
+        case '1':
+		newAccount(fp1);
+		break;
+	case '2':
+		updateAccount(fp2, ft1);
+		break;
+	case '3':
+		userTransaction(fp3, fp4, fp5, ft1);
+		break;
+	case '4':
+		accountInfo(fp6, fp7);
+		break;
+	case '5':
+		accountRemoval(fp6, fp7, fp8, ft1, ft2, ft3);
+		break;
+	case '6':
+		printf("Okay, Good Bye!\n");
+		break;
+	default:
+		printf("Sorry, wrong option\n");
+		break;
+    }
+    return 0;
 }
-
-
