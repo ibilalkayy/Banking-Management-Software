@@ -9,9 +9,17 @@
 
 /* Global variables */
 char string[STRING_LEN], pinFind[STRING_LEN], ch, choice[STRING_LEN], option, one='1', two='2'; 
-/* Details required from the user */
 static const char * listing[] = {"Name", "Date of Birth", "ID card number", "Phone number", "Address", "Account", "Fixed", "Amount", "Pin code"};
 char * lineOne = NULL, *pinFound = NULL, *numbers[9];
+
+/* Storing file locations */
+char tempFile[STRING_LEN] = "/home/bilal/Documents/Project/Project2/tempfile.csv", 
+tDepositRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/tdr.csv", 
+tWithdrawRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/twr.csv",
+
+file[STRING_LEN] = "/home/bilal/Documents/Project/Project2/file.csv",
+depositRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/dr.csv",
+withdrawRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/wr.csv";
 
 int allDigits(char *s)
 {
@@ -195,19 +203,19 @@ int updateAccount(FILE * fp2, FILE * ft1)
 	fclose(ft1);
 
 	/* Delete data from permanent file */
-	fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
+	fp2 = fopen(file, "w");
 	fclose(fp2);	
 
 	/* Copy data from the temporary file to the permanent file */
-	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-	fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+	ft1 = fopen(tempFile, "r");
+	fp2 = fopen(file, "a");
 
 	copying(ft1, fp2);
 	fclose(fp2);
 	fclose(ft1);
 
 	/* Delete data from the temporary file */
-	ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
+	ft1 = fopen(tempFile, "w");
 	fclose(ft1);
 
     }while(0);
@@ -298,19 +306,19 @@ int userTransaction(FILE * fp3, FILE * fp4, FILE * fp5, FILE * ft1)
     fclose(fp3);
 
     /* Delete the data from original file */
-    fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
+    fp3 = fopen(file, "w");
     fclose(fp3);
 
     /* Copy the data from temporary file to original file */
-    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-    fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+    ft1 = fopen(tempFile, "r");
+    fp3 = fopen(file, "a");
 
     copying(ft1, fp3);	
     fclose(ft1);
     fclose(fp3);
 
     /* Delete the data from the temporary file */
-    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
+    ft1 = fopen(tempFile, "w");
     fclose(ft1);
 
     }while(0);
@@ -387,22 +395,22 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
     fclose(ft3);
 
     /* Delete the data from original file */
-    fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "w");
-    fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "w");
-    fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "w");
+    fp6 = fopen(file, "w");
+    fp7 = fopen(depositRecord, "w");
+    fp8 = fopen(withdrawRecord, "w");
     fclose(fp6);
     fclose(fp7);
     fclose(fp8);
 
     /* Copy the data from temporary file to original file */
-    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "r");
-    fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
+    ft1 = fopen(tempFile, "r");
+    fp6 = fopen(file, "a");
 
-    ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "r");
-    fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
+    ft2 = fopen(tDepositRecord, "r");
+    fp7 = fopen(depositRecord, "a");
 
-    ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "r");
-    fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
+    ft3 = fopen(tWithdrawRecord, "r");
+    fp8 = fopen(withdrawRecord, "a");
 
     copying(ft1, fp6);
     copying(ft2, fp7);
@@ -415,9 +423,9 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
     fclose(ft3);
 
     /* Delete the data from temporary file */
-    ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "w");
-    ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "w");
-    ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "w");	
+    ft1 = fopen(tempFile, "w");
+    ft2 = fopen(tDepositRecord, "w");
+    ft3 = fopen(tWithdrawRecord, "w");	
     fclose(ft1);
     fclose(ft2);
     fclose(ft3);
@@ -429,19 +437,19 @@ int accountRemoval(FILE * fp6, FILE * fp7, FILE * fp8, FILE * ft1, FILE * ft2, F
 int main()
 {
     /* Temporary files */
-    FILE * ft1 = fopen("/home/bilal/Documents/Project/Project2/tempfile.csv", "a");
-    FILE * ft2 = fopen("/home/bilal/Documents/Project/Project2/tdr.csv", "a");
-    FILE * ft3 = fopen("/home/bilal/Documents/Project/Project2/twr.csv", "a");
+    FILE * ft1 = fopen(tempFile, "a");
+    FILE * ft2 = fopen(tDepositRecord, "a");
+    FILE * ft3 = fopen(tWithdrawRecord, "a");
 	
     /* Permanent files */
-    FILE * fp1 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "a");
-    FILE * fp2 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-    FILE * fp3 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-    FILE * fp4 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "a");
-    FILE * fp5 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "a");
-    FILE * fp6 = fopen("/home/bilal/Documents/Project/Project2/file.csv", "r");
-    FILE * fp7 = fopen("/home/bilal/Documents/Project/Project2/dr.csv", "r");
-    FILE * fp8 = fopen("/home/bilal/Documents/Project/Project2/wr.csv", "r");
+    FILE * fp1 = fopen(file, "a");
+    FILE * fp2 = fopen(file, "r");
+    FILE * fp3 = fopen(file, "r");
+    FILE * fp4 = fopen(depositRecord, "a");
+    FILE * fp5 = fopen(withdrawRecord, "a");
+    FILE * fp6 = fopen(file, "r");
+    FILE * fp7 = fopen(depositRecord, "r");
+    FILE * fp8 = fopen(withdrawRecord, "r");
 
     /* Show the Main menu */
     printf("BANKING MANAGEMENT SYSTEM\n");
