@@ -32,7 +32,7 @@ typedef struct{
 } datestrval;
 datestrval max = {.datestr = ""};					/* Show the maximum value */																																		
 
-int record(char *buf)
+int checkDeposit(char *buf)
 {
     do{
         unsigned day, mon, yr, recorded = 0;
@@ -334,7 +334,7 @@ int accountInfo(FILE * fp6, FILE * fp7)
 	    lineOne = strtok(string, "\n");
 	    pinFound = strstr(lineOne, pinFind);		
 	    if(pinFound){
-		record(string);						/* Get the actual data record */
+		checkDeposit(string);						/* Get the actual data record */
 	    }		
 	}
 	printf("Here is your last Deposit Date: %s\n", max.datestr);	/* Print the last Deposit Date */
