@@ -74,7 +74,7 @@ int read(FILE * fname, char * findPin)
     if(fgets(string, STRING_LEN, fname))
     {
         lineOne = strtok(string, "\n");
-	pinFound = strstr(lineOne, pinFind);
+	pinFound = strstr(lineOne, findPin);
 	numbers[0] = strtok(lineOne, ",");
 	for(int i = 1; i < 9; i++)
 	    numbers[i] = strtok(NULL, ",");
