@@ -42,18 +42,14 @@ This function differetiate the input data, to check whether it's an alphabet or 
 
 It is used in the accountInfo() function in which a user will see the details of the account. But this function will get the last deposit date from the deposit history of a user.
 
-# No.3 read()
-
-Reading and finding the pin code from the files requires fgets() multiple times. So read() function is made for the purpose to read and find the pin code in a file.
-
-# No.4 askPin()
+# No.3 askPin()
 
 This function will ask the user to enter the pin code whenever he/she wants to access the account. Here I used allDigits() function to check whether the pin code is a  number and an alphabet and put conditions on it.
 
-# No.5 updateOption()
+# No.4 read()
 
-This function is used in the updateAccount() function in which a user has given three options to update that are pin code, phone number, and address. So a user will write a choice and enter the updated option.
+Reading and finding the pin code from the files requires fgets() multiple times. So read() function is made for the purpose to read and find the pin code in a file.
 
-# No.6 copying()
+# No.5 copying()
 
 It'll copy all the data from the temporary to the original file.
