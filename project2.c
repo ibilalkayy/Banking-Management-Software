@@ -99,19 +99,6 @@ int askPin(char *pin)
     return 0;
 }
 
-int updateOption(char *updateChoice, char *selection)
-{
-    printf("Enter another %s to update: ", selection);
-    getchar();
-    fgets(updateChoice, sizeof(updateChoice), stdin);
-
-    size_t len = strlen(updateChoice);					/* Find the length of new pin code */
-    if(len > 0 && updateChoice[len - 1] == '\n'){			/* Subtract 1 from pin code length that is 5 */
-        updateChoice[--len] = '\0';					/* --len decrements the newline */
-    }
-    return 0;
-}
-
 int copying(FILE * fFile, FILE * tFile){
     ch = getc(fFile);
     while(ch != EOF){
@@ -168,29 +155,50 @@ int updateAccount(FILE * fp2, FILE * ft1)
 
 		printf("Enter your choice to update: ");		/* Select the desired option */
 		scanf("%d", &opt);
-
+		    
 		while(pinFound)						/* Continue reading until the pin code found */
 		{
 		    if(opt == 1)
 		    {							
-		        updateOption(updatedPin, "Pin code");		/* Print the data in temporary file */		    						
-			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);
-			printf("Your Pin code is successfully updated\n");
-			break;		
+		        printf("Enter another Pin code to update: ");
+			getchar();
+			fgets(updatedPin, sizeof(updatedPin), stdin);
+
+			size_t len = strlen(updatedPin);					
+			if(len > 0 && updatedPin[len - 1] == '\n'){	
+			    updatedPin[--len] = '\0';					
+			    fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], updatedPin);
+			    printf("Your Pin code is successfully updated\n");
+			    break;
+			}	
 		    }
 		    if(opt == 2)
 		    {
-			updateOption(updatedPhone, "Phone number");
-			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-			printf("Your Phone number is successfully updated\n");
-			break;
+			printf("Enter another Phone number to update: ");
+			getchar();
+			fgets(updatedPhone, sizeof(updatedPhone), stdin);
+
+			size_t len = strlen(updatedPhone);		/* Find the length of new pin code */				
+			if(len > 0 && updatedPhone[len - 1] == '\n'){	/* Subtract 1 from pin code length that is 5 */
+			    updatedPhone[--len] = '\0';			/* --len decrements the newline */		
+			    fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], updatedPhone, numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+			    printf("Your Phone number is successfully updated\n");
+			    break;
+			}
 		    }
 		    if(opt == 3)
 		    {
-			updateOption(updatedAddress, "Address");
-			fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
-			printf("Your Address is successfully updated\n");
-			break;	
+			printf("Enter another Address to update: ");
+			getchar();
+			fgets(updatedAddress, sizeof(updatedAddress), stdin);
+
+			size_t len = strlen(updatedAddress);					
+			if(len > 0 && updatedAddress[len - 1] == '\n'){	
+				updatedAddress[--len] = '\0';					
+				fprintf(ft1, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", numbers[0], numbers[1], numbers[2], numbers[3], updatedAddress, numbers[5], numbers[6], numbers[7], numbers[8]);
+				printf("Your Address is successfully updated\n");
+				break;
+			}
 		    }
 		}
 	    }
