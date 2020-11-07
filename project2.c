@@ -13,13 +13,13 @@ static const char * listing[] = {"Name", "Date of Birth", "ID card number", "Pho
 char * lineOne = NULL, *pinFound = NULL, *numbers[9];
 
 /* Storing file locations */
-char tempFile[STRING_LEN] = "/home/bilal/Documents/Project/Project2/tempfile.csv", 
-tDepositRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/tdr.csv", 
-tWithdrawRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/twr.csv",
+char tempFile[STRING_LEN] = "tempfile.csv", 
+tDepositRecord[STRING_LEN] = "tdr.csv", 
+tWithdrawRecord[STRING_LEN] = "twr.csv",
 
-file[STRING_LEN] = "/home/bilal/Documents/Project/Project2/file.csv",
-depositRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/dr.csv",
-withdrawRecord[STRING_LEN] = "/home/bilal/Documents/Project/Project2/wr.csv";
+file[STRING_LEN] = "file.csv",
+depositRecord[STRING_LEN] = "dr.csv",
+withdrawRecord[STRING_LEN] = "wr.csv";
 
 int allDigits(char *s)
 {
@@ -49,15 +49,11 @@ int checkDeposit(char *buf)
 	if(!p)
 	    continue;
 
-	/* Starting 1 char after ',' split into day mo yr */
-	if(sscanf(p + 1, "%d-%d-%4d", &day, &mon, &yr) != 3)
+	if(sscanf(p + 1, "%d-%d-%4d", &day, &mon, &yr) != 3)		/* Starting 1 char after ',' split into day mo yr */
 	    continue;
 
-	/* Put it together in tmpstr */
-	sprintf(tmpstr, "%4d%2d%2d", yr, mon, day);	
-
-	/* Convert tmpstr to unsigned in recorded */
-	if(sscanf(tmpstr, "%d", &recorded) != 1)
+	sprintf(tmpstr, "%4d%2d%2d", yr, mon, day);			/* Put it together in tmpstr */						
+	if(sscanf(tmpstr, "%d", &recorded) != 1)			/* Convert tmpstr to unsigned in recorded */
 	    continue;
 
 	if(recorded > max.dateval){					/* if recorded greater than current max val */
@@ -67,6 +63,20 @@ int checkDeposit(char *buf)
 	}
     }while(0);
     return max.dateval;
+}
+
+int askPin(char *pin)
+{
+    printf("Enter your Pin Code: ");
+    scanf("%s", pin);
+
+    if(strlen(pin) != 4){
+        printf("Sorry, wrong data entered\n");
+    }
+    else if(!allDigits(pin)){
+        printf("Sorry, wrong data entered\n");
+    }
+    return 0;
 }
 
 int read(FILE * fname, char * findPin)
@@ -83,20 +93,6 @@ int read(FILE * fname, char * findPin)
     else{
         return false;
     }
-}
-
-int askPin(char *pin)
-{
-    printf("Enter your Pin Code: ");
-    scanf("%s", pin);
-
-    if(strlen(pin) != 4){
-        printf("Sorry, wrong data entered\n");
-    }
-    else if(!allDigits(pin)){
-        printf("Sorry, wrong data entered\n");
-    }
-    return 0;
 }
 
 int copying(FILE * fFile, FILE * tFile){
